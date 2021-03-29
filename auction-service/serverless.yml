@@ -1,0 +1,24 @@
+service:
+  name: auction-service
+
+plugins:
+  # allows you to bundle and use es6 syntax
+  - serverless-bundle
+  # allows you to use aws params in your code
+  - serverless-pseudo-parameters
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  memorySize: 256
+  # defines the env of your lambda
+  stage: ${opt:stage, 'dev'}
+  region: ap-south-1
+
+functions:
+  hello:
+    handler: src/handlers/hello.handler
+    events:
+      - http:
+          method: GET
+          path: /hello
