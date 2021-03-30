@@ -1,7 +1,29 @@
+import { v4 as uuid } from 'uuid';
+import AWS from 'aws-sdk';
+
+const dynamoDb = new AWS.DynamoDB.DocumentClient();
+
 const createAuction = async (event, context) => {
+  const { title, price } = JSON.parse(event.body);
+  const now = new Date();
+
+  const auction = {
+    id: uuid(),
+    title,
+    price,
+    createdAt: now.toISOString(),
+  };
+
+  await dynamoDb
+    .put({
+      TableName: 'AuctionsTable',
+      Item: auction,
+    })
+    .promise(); // because bydefault it uses cb (then)
+
   return {
-    statusCode: 200,
-    body: JSON.stringify({ event, context }),
+    statusCode: 201,
+    body: JSON.stringify(auction),
   };
 };
 
