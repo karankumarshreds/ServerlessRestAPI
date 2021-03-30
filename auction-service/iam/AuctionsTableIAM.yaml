@@ -2,5 +2,8 @@ AuctionsTableIAM:
   Effect: Allow
   Action:
     - dynamodb:PutItem
+    - dynamodb:Scan
   Resource:
     - ${self:custom.AuctionsTable.arn}
+## List of actions can be found here
+## https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazondynamodb.html
