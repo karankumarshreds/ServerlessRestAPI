@@ -42,6 +42,12 @@ functions:
       - http:
           method: GET
           path: /auction/{id}
+  PlaceBid:
+    handler: src/handlers/place-bid.handler
+    events:
+      - http:
+          method: PATCH
+          path: /auction/{id}/bid
 
 # custom properties
 custom:
