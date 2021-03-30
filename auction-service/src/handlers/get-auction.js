@@ -4,10 +4,8 @@ import wrapper from '../lib/wrapper';
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-const getAuction = async (event, context) => {
-  const { id } = event.pathParameters;
+export const getAuctionById = async (id) => {
   let auction;
-
   try {
     const { Item } = await dynamoDb
       .get({
@@ -20,11 +18,15 @@ const getAuction = async (event, context) => {
     console.error(error);
     throw new createError.InternalServerError('Internal Server Error');
   }
-
   if (!auction) {
     throw new createError.NotFound('Auction not found');
   }
+  return auction;
+};
 
+const getAuction = async (event, context) => {
+  const { id } = event.pathParameters;
+  let auction = await getAuctionById(id);
   return {
     statusCode: 200,
     body: JSON.stringify(auction),

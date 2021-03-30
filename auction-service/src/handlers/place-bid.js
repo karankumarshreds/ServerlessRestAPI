@@ -1,14 +1,21 @@
 import AWS from 'aws-sdk';
 import wrapper from '../lib/wrapper';
 import createError from 'http-errors';
+// methods
+import { getAuctionById } from './get-auction';
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 const placeBid = async (event, context) => {
   const { amount } = event.body;
   const { id } = event.pathParameters;
-  let updatedItem;
+  const auction = await getAuctionById(id);
 
+  if (amount <= auction.highestBid.amount) {
+    throw new createError.Forbidden('Cannot bid less than highest bid');
+  }
+
+  let updatedItem;
   try {
     const result = await dynamoDb
       .update({
