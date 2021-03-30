@@ -14,6 +14,8 @@ provider:
   # defines the env of your lambda
   stage: ${opt:stage, 'dev'}
   region: ap-south-1
+  environment:
+    AUCTIONS_TABLE_NAME: ${self:custom.AuctionsTable.name}
   iamRoleStatements:
     - ${file(iam/AuctionsTableIAM.yaml):AuctionsTableIAM}
 
@@ -28,3 +30,15 @@ functions:
       - http:
           method: POST
           path: /auction
+  GetAuctions:
+    handler: src/handlers/get-auctions.handler
+    events:
+      - http:
+          method: GET
+          path: /auctions
+
+# custom properties
+custom:
+  AuctionsTable:
+    name: !Ref AuctionsTable
+    arn: !GetAtt AuctionsTable.Arn
