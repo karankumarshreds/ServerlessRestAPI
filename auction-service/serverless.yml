@@ -36,6 +36,12 @@ functions:
       - http:
           method: GET
           path: /auctions
+  GetAuction:
+    handler: src/handlers/get-auction.handler
+    events:
+      - http:
+          method: GET
+          path: /auction/{id}
 
 # custom properties
 custom:

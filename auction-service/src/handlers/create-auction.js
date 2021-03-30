@@ -1,11 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import AWS from 'aws-sdk';
-// middlewares
-import middy from '@middy/core';
-import httpJsonBodyParser from '@middy/http-json-body-parser';
-import httpEventNormalizer from '@middy/http-event-normalizer';
-import httpErrorHandler from '@middy/http-error-handler';
 import createError from 'http-errors';
+import wrapper from '../lib/wrapper';
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
@@ -38,10 +34,7 @@ const createAuction = async (event, context) => {
   };
 };
 
-export const handler = middy(createAuction)
-  .use(httpJsonBodyParser()) // parses incoming json body
-  .use(httpEventNormalizer())
-  .use(httpErrorHandler());
+export const handler = wrapper(createAuction);
 
 /**
  * @event
@@ -50,19 +43,7 @@ export const handler = middy(createAuction)
  * In our case it is a POST call at '/auction' defined in
  * the serverless.yml file
  *
- * @constant
+ * @context
  * Contains metadata about the execution of this lambda function
  * This is also where you can add your middlewares as well
- *
- * @httpEventNormalizer
- * This middleware normalizes the API Gateway event , making sure
- * that an object for queryStringParameters, multiValueQueryStringParameters
- * and pathParameters is always available (resulting in empty objects when
- * no parameter is available), this way you don't have to worry about adding
- * extra if statements before trying to read a property
- *
- * @httpErrorHandler
- * Automatically handles uncaught errors that contain the properties
- * statusCode (number) and message (string) and creates a proper HTTP
- * response for them
  */
