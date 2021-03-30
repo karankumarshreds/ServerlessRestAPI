@@ -1,0 +1,13 @@
+AuctionsTable:
+  Type: AWS::DynamoDB::Table
+  Properties:
+    TableName: AuctionsTable
+    BillingMode: PAY_PER_REQUEST
+    # defining the attribute
+    AttributeDefinitions:
+      - AttributeName: id
+        AttributeType: S #string
+    # attaching it with db
+    KeySchema:
+      - AttributeName: id
+        KeyType: HASH # this means make it as a partition key/primary key
