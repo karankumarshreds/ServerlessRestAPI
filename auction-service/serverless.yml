@@ -50,8 +50,10 @@ functions:
           path: /auction/{id}/bid
   ProcessAuctions:
     handler: src/handlers/process-auctions.handler
-    event:
-      - schedule: rate(5 minute)
+    # check logs from cli
+    # sls logs -f ProcessAuctions
+    events:
+      - schedule: rate(1 minute)
 
 # custom properties
 custom:
