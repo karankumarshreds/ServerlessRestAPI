@@ -36,6 +36,12 @@ _If you want to see logs while invoking_
 
 > sls invoke -f <function_name> -l
 
+## StringParameters vs QueryStringParameters
+
+String paramaters : `/api/auctions/:id`
+
+Query String Parameters: `/api/auctions/?status=`
+
 ## Dynamodb IAM actions
 
 https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazondynamodb.html
