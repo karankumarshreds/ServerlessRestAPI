@@ -9,7 +9,22 @@ AuctionsTable:
     AttributeDefinitions:
       - AttributeName: id
         AttributeType: S #string
+      - AttributeName: status
+        AttributeType: S
+      - AttributeName: endingAt
+        AttributeType: S
     # attaching it with db
     KeySchema:
       - AttributeName: id
-        KeyType: HASH # this means make it as a partition key/primary key
+        KeyType: HASH # means keep it unique
+    GlobalSecondaryIndexes:
+      - IndexName: statusAndEndDate
+        KeySchema:
+          - AttributeName: status
+            KeyType: HASH
+          - AttributeName: endingAt
+            KeyType: RANGE
+        # this tells DB to create keep copies of this indexes
+        # in the virtual table that it creates for indexing
+        Projection:
+          ProjectionType: ALL

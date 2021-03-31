@@ -5,7 +5,10 @@ AuctionsTableIAM:
     - dynamodb:Scan
     - dynamodb:GetItem
     - dynamodb:UpdateItem
+    - dynamodb:Query
   Resource:
     - ${self:custom.AuctionsTable.arn}
+    # since indexes create a virtual table, hence they need a server of their own
+    - !Join ['/', ['${self:custom.AuctionsTable.arn}', 'index', 'statusAndEndDate']]
 ## List of actions can be found here
 ## https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazondynamodb.html

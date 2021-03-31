@@ -28,6 +28,18 @@ _If you make changes to a single function, you can deploy only that function_
 
 > sls deploy -f <function_name> // function name is gotten from serverless.yml
 
+_If you want to invoke the function manually_
+
+> sls invoke -f <function_name>
+
+_If you want to see logs while invoking_
+
+> sls invoke -f <function_name> -l
+
 ## Dynamodb IAM actions
 
 https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazondynamodb.html
+
+## EventBridge logs
+
+> sls logs -f <name_of_the_function>

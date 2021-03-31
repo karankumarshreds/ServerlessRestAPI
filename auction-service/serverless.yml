@@ -52,8 +52,8 @@ functions:
     handler: src/handlers/process-auctions.handler
     # check logs from cli
     # sls logs -f ProcessAuctions
-    events:
-      - schedule: rate(1 minute)
+    # events:
+    #   - schedule: rate(5 minutes)
 
 # custom properties
 custom:
