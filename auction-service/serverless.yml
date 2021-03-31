@@ -48,6 +48,10 @@ functions:
       - http:
           method: PATCH
           path: /auction/{id}/bid
+  ProcessAuctions:
+    handler: src/handlers/process-auctions.handler
+    event:
+      - schedule: rate(5 minute)
 
 # custom properties
 custom:
