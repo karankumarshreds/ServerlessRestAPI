@@ -1,6 +1,8 @@
 import AWS from 'aws-sdk';
 import createError from 'http-errors';
 import wrapper from '../lib/wrapper';
+import validator from '@middy/validator';
+import getAuctionsSchema from '../lib/schemas/getAuctionsSchema';
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
@@ -34,4 +36,7 @@ const getAuctions = async (event, context) => {
   };
 };
 
-export const handler = wrapper(getAuctions);
+export const handler = wrapper(getAuctions).use(
+  // useDefaults === use default values provided in the schema
+  validator({ inputSchema: getAuctionsSchema, useDefaults: true })
+);

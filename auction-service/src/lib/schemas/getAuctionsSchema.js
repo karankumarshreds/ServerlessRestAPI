@@ -1,5 +1,5 @@
 // schema for body/request validation
-export default schema = {
+const schema = {
   properties: {
     queryStringParameters: {
       type: 'object',
@@ -17,6 +17,9 @@ export default schema = {
   required: ['queryStringParameters'],
 };
 
+export default schema;
+
 /**
  * uses @middy/validator package
+ * NOTE: use package version @middy/validator@1.2.0
  */
