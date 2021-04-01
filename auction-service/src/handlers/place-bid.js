@@ -1,6 +1,8 @@
 import AWS from 'aws-sdk';
 import wrapper from '../lib/wrapper';
 import createError from 'http-errors';
+import validator from '@middy/validator';
+import placeBidSchema from '../lib/schemas/placeBidSchema';
 // methods
 import { getAuctionById } from './get-auction';
 
@@ -45,4 +47,6 @@ const placeBid = async (event, context) => {
   };
 };
 
-export const handler = wrapper(placeBid);
+export const handler = wrapper(placeBid).use(
+  validator({ inputSchema: placeBidSchema, useDefaults: false })
+);
