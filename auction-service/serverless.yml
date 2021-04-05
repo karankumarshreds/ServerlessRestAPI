@@ -13,7 +13,7 @@ provider:
   memorySize: 256
   # defines the env of your lambda
   stage: ${opt:stage, 'dev'}
-  region: ap-south-1
+  region: us-east-1
   environment:
     AUCTIONS_TABLE_NAME: ${self:custom.AuctionsTable.name}
   iamRoleStatements:
