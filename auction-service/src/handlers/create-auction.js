@@ -13,6 +13,9 @@ const createAuction = async (event, context) => {
   const endDate = new Date();
   endDate.setHours(now.getHours() + 1);
 
+  // authorizer === name of the authorizer function
+  const { email } = event.requestContext.authorizer;
+
   const auction = {
     id: uuid(),
     title,
@@ -20,8 +23,10 @@ const createAuction = async (event, context) => {
     createdAt: now.toISOString(),
     endingAt: endDate.toISOString(),
     status: 'OPEN',
+    seller: email,
     highestBid: {
       amount: 0,
+      bidder: null,
     },
   };
 

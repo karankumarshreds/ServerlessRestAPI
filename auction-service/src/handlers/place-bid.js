@@ -13,6 +13,12 @@ const placeBid = async (event, context) => {
   const { id } = event.pathParameters;
   const auction = await getAuctionById(id);
 
+  const { email } = event.requestContext.authorizer;
+
+  if (auction.highestBid.bidder === email) {
+    throw new createError.BadRequest('You have already placed the highest bid');
+  }
+
   if (amount <= auction.highestBid.amount) {
     throw new createError.Forbidden('Cannot bid less than highest bid');
   }
@@ -26,9 +32,10 @@ const placeBid = async (event, context) => {
       .update({
         TableName: process.env.AUCTIONS_TABLE_NAME,
         Key: { id },
-        UpdateExpression: `set highestBid.amount = :amount`,
+        UpdateExpression: `set highestBid.amount = :amount, highestBid.bidder = :bidder`,
         ExpressionAttributeValues: {
           ':amount': amount,
+          ':bidder': email,
         },
         ReturnValues: 'ALL_NEW',
       })

@@ -16,6 +16,7 @@ functions:
   auth:
     handler: src/handlers/auth.handler
     cors: true
+    ## only for testing purposes
   publicEndpoint:
     handler: src/handlers/public.handler
     events:
